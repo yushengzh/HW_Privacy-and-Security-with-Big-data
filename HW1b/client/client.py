@@ -5,20 +5,50 @@ __author__ = BlingBling
 #!/usr/bin/env python
 
 from socket import *
-from cryptfile import DecryptionFile
-from cryption import AES128
+import time
+import sys
+sys.path.append("../")
+from cryp.cryptfile import DecryptionFile
+from cryp.generateprime import PrimeGenerator
+from cryp.participant import OneParticipant
+from cryp.cryption import AES128
+generator = PrimeGenerator(20)
+q, alpha = generator.generate_large_prime()
+Alice = OneParticipant(q, alpha)
 aes128 = AES128()
-key = b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x07\xe9\xf0'
-roundkeys = aes128.key_expansion(aes128.bytes2num(key))
 
-HOST = 'localhost'
-PORT = 21567
+key = 0
+roundkeys = 0
+
+HOST = 'localhost' # 127.0.0.1
+PORT = 11567
 BUFSIZ = 1024
 ADDR = (HOST, PORT)
+
 
 tcpCliSock = socket(AF_INET, SOCK_STREAM)
 tcpCliSock.connect(ADDR)
 
+'''协商密钥'''
+sharekey = 0
+key = 0
+roundkeys = 0
+while True:
+    mess = (q, alpha)
+    tcpCliSock.send(bytes(str((q, alpha)), 'utf-8'))
+    time.sleep(2)
+    tcpCliSock.send(bytes(str(Alice.get_pubkey()), 'utf-8'))
+    time.sleep(2)
+    pubkey_from_bob = tcpCliSock.recv(BUFSIZ)
+    pubkey_from_bob = int(pubkey_from_bob.decode())
+    print("Bob的公钥为" + str(pubkey_from_bob))
+    sharekey = Alice.cal_share_key(pubkey_from_bob)
+    if sharekey != 0:
+        break
+print("共享密钥为" + str(sharekey))
+key = aes128.num_2_16bytes(sharekey)
+roundkeys = aes128.key_expansion(aes128.bytes2num(key))
+print("密钥为" + str(key))
 while True:
     message = input('> ')
     if not message:

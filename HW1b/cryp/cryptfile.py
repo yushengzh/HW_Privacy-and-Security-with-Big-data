@@ -4,8 +4,9 @@
 '''
 
 import os
-from cryption import AES128
-
+import sys
+sys.path.append('./')
+from cryp.cryption import AES128
 
 class EncryptionFile:
     def __init__(self, filepath, roundkeys):

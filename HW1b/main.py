@@ -24,11 +24,9 @@
 5. 相同文件每次发送的加密文件不同(diff roundkeys diff encrypted file)
 '''
 
-from generateprime import PrimeGenerator
-from participant import OneParticipant
-from cryption import AES128
-from cryptfile import DecryptionFile
-from cryptfile import EncryptionFile
+from cryp.generateprime import PrimeGenerator
+from cryp.participant import OneParticipant
+from cryp.cryption import AES128
 
 ## 阶梯 1 & 2
 generator = PrimeGenerator(20)
@@ -47,7 +45,7 @@ key = aes128.num_2_16bytes(skey_fromA)
 print("共享密钥是：" + str(key))
 roundkeys = aes128.key_expansion(aes128.bytes2num(key))
 
-plaintext = 0x0f0e0d0c0b0a09080706050403020100
+plaintext = 0x0f0e0d0c0b0a090807060504030201ef
 print("\n输入明文:" + str(list(aes128.num_2_16bytes(plaintext))) + "\n")
 ciphertext = aes128.encryption(plaintext, roundkeys)
 
@@ -56,9 +54,9 @@ out = aes128.decryption(ciphertext, roundkeys)
 print("\n解密结果:" + str(out) + "\n")
 
 
-print("==============test cryptfile=================")
-ef = EncryptionFile("../server/message.txt", roundkeys)
-df = DecryptionFile("ciphertext", roundkeys)
-ef.encrpt_file()
-df.decrypt_file('txt')
+#print("==============test cryptfile=================")
+#ef = EncryptionFile("../server/message.txt", roundkeys)
+#df = DecryptionFile("ciphertext", roundkeys)
+#ef.encrpt_file()
+#df.decrypt_file('txt')
 
