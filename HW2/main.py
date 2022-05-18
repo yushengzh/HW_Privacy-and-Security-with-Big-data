@@ -88,8 +88,8 @@ plt.show()
 #t1 = KDTree()
 #t1.build_tree(txt, z1)
 # ['0.424582', '0.410366']
-x = input("请输入查询x:")
-y = input("请输入近似查询y:")
+x = input("请输入x值:")
+y = input("请输入y值:")
 
 '''
 model = K_Nearest_Neighbor()
@@ -102,12 +102,16 @@ model.fit(txt, z1, k)
 # Xi = [0.309170, 0.418650]
 Xi = [float(x), float(y)]
 k = input("请输入近似查询k值:")
+
 model = KNeighborsBase()
 model.fit(txt, y1, int(k))
 
+# model1 = K_Nearest_Neighbor()
+# model1.fit(txt, z1, int(k))
+# heap1 = model1.knn(Xi)
 heap = model._knn_search(Xi)
 ret1 = [get_eu_dist(Xi, nd.split[0]) for nd in heap.items]
-
+print(heap)
 
 
 

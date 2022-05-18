@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
-"""
-@Author: tushushu
-@Date: 2018-08-21 19:19:52
-@Last Modified by:   tushushu
-@Last Modified time: 2018-08-21 19:19:52
-"""
+
 import sys
+import os
+import time
 sys.path.append('./')
 from misc.util import get_eu_dist
 from cryp.OPE import simOPE
@@ -167,6 +164,7 @@ class KDTree(object):
             X {list} -- 2d list object with int or float.
             y {list} -- 1d list object with int or float.
         """
+        print("正在加密,稍后建树……")
         for i in range(len(X)):
             X[i] = [float(self.simope.encryption(float(X[i][0]))), float(self.simope.encryption(float(X[i][1])))]
         for i in range(len(y)):
@@ -175,6 +173,9 @@ class KDTree(object):
         nd = self.root
         idxs = range(len(X))
         que = [(nd, idxs)]
+        print("加密完成!")
+        time.sleep(2)
+        print("正在建树，稍后检索……")
         while que:
             nd, idxs = que.pop(0)
             n = len(idxs)

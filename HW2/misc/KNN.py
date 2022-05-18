@@ -142,6 +142,10 @@ class K_Nearest_Neighbor():
 
     def knn(self, tar):
         tree = self.tree
+        simope = tree.simope
+        print("需要查询的明文为" + str(tar))
+        tar = [float(simope.encryption(float(tar[0]))), float(simope.encryption(float(tar[1])))]
+        print("simOPE加密为" + str(tar))
         heap = MaxHeap(self.k, lambda x: x.dist)
         node = tree.search_new(tar, tree.root)
         que = [(tree.root, node)]
@@ -164,5 +168,12 @@ class K_Nearest_Neighbor():
                     que.append((nd_cur.get_brother, _nd))
                 # Back track.
                 nd_cur = nd_cur.father
+        print("近似查询结果如下")
+        cnt = 0
+        for nd in heap.items:
+            cnt += 1
+            print("第"+str(cnt)+"项")
+            print([round(float(simope.decryption(float(nd.split[0][0]))), 6),round(float(simope.decryption(float(nd.split[0][1]))), 6)])
+            print("加密值为" + str(nd.split[0]))
         return heap
 
