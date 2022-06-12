@@ -3,7 +3,7 @@
 
 ### lab 1
 - *AES-128*: encryption and decryption pattern 
-- *DH Protocol*: exchange key
+- *DH Protocol*: exchange session key
 - *Socket*(Client/Server): transport files with self-implemented encryption 
 
 ### lab 2
@@ -13,4 +13,8 @@
 
 ### lab 3
 - k-anonymity automatically
-- differential privacy on anonymous data
+  - datafly
+  - mondrian
+- differential privacy on 'age' data
+
+  - laplace mechanism
