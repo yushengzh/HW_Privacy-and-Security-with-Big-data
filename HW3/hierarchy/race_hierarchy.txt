@@ -1,0 +1,5 @@
+Black,Orient,*
+White,Occident,*
+Asian-Pac-Islander,Orient,*
+Amer-Indian-Eskimo,Occident,*
+Other,Orient,*

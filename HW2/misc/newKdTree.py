@@ -9,9 +9,6 @@ from cryp.OPE import simOPE
 
 class Node(object):
     def __init__(self):
-        """Node class to build tree leaves.
-        """
-
         self.father = None
         self.left = None
         self.right = None
@@ -23,11 +20,7 @@ class Node(object):
 
     @property
     def brother(self):
-        """Find the node's brother.
 
-        Returns:
-            node -- Brother node.
-        """
         if not self.father:
             ret = None
         else:
@@ -40,21 +33,11 @@ class Node(object):
 
 class KDTree(object):
     def __init__(self):
-        """KD Tree class to improve search efficiency in KNN.
 
-        Attributes:
-            root: the root node of KDTree.
-        """
         self.root = Node()
         self.simope = simOPE()
 
     def __str__(self):
-        """Show the relationship of each node in the KD Tree.
-
-        Returns:
-            str -- KDTree Nodes information.
-        """
-
         ret = []
         i = 0
         que = [(self.root, -1)]
@@ -69,18 +52,6 @@ class KDTree(object):
         return "\n".join(ret)
 
     def _get_median_idx(self, X, idxs, feature):
-        """Calculate the median of a column of data.
-
-        Arguments:
-            X {list} -- 2d list object with int or float.
-            idxs {list} -- 1D list with int.
-            feature {int} -- Feature number.
-            sorted_idxs_2d {list} -- 2D list with int.
-
-        Returns:
-            list -- The row index corresponding to the median of this column.
-        """
-
         n = len(idxs)
         # Ignoring the number of column elements is odd and even.
         k = n // 2
@@ -94,17 +65,6 @@ class KDTree(object):
         return median_idx
 
     def _get_variance(self, X, idxs, feature):
-        """Calculate the variance of a column of data.
-
-        Arguments:
-            X {list} -- 2d list object with int or float.
-            idxs {list} -- 1D list with int.
-            feature {int} -- Feature number.
-
-        Returns:
-            float -- variance
-        """
-
         n = len(idxs)
         col_sum = col_sum_sqr = 0
         for idx in idxs:
@@ -115,34 +75,12 @@ class KDTree(object):
         return col_sum_sqr / n - (col_sum / n) ** 2
 
     def _choose_feature(self, X, idxs):
-        """Choose the feature which has maximum variance.
-
-        Arguments:
-            X {list} -- 2d list object with int or float.
-            idxs {list} -- 1D list with int.
-
-        Returns:
-            feature number {int}
-        """
-
         m = len(X[0])
         variances = map(lambda j: (
             j, self._get_variance(X, idxs, j)), range(m))
         return max(variances, key=lambda x: x[1])[0]
 
     def _split_feature(self, X, idxs, feature, median_idx):
-        """Split indexes into two arrays according to split point.
-
-        Arguments:
-            X {list} -- 2d list object with int or float.
-            idx {list} -- Indexes, 1d list object with int.
-            feature {int} -- Feature number.
-            median_idx {float} -- Median index of the feature.
-
-        Returns:
-            list -- [left idx, right idx]
-        """
-
         idxs_split = [[], []]
         split_val = X[median_idx][feature]
         for idx in idxs:
@@ -158,12 +96,6 @@ class KDTree(object):
         return idxs_split
 
     def build_tree(self, X, y):
-        """Build a KD Tree. The data should be scaled so as to calculate variances.
-
-        Arguments:
-            X {list} -- 2d list object with int or float.
-            y {list} -- 1d list object with int or float.
-        """
         print("正在加密,稍后建树……")
         for i in range(len(X)):
             X[i] = [float(self.simope.encryption(float(X[i][0]))), float(self.simope.encryption(float(X[i][1])))]
@@ -202,14 +134,6 @@ class KDTree(object):
                 que.append((nd.right, idxs_right))
 
     def _search(self, Xi, nd):
-        """Search Xi from the KDTree until Xi is at an leafnode.
-
-        Arguments:
-            Xi {list} -- 1d list with int or float.
-
-        Returns:
-            node -- Leafnode.
-        """
 
         while nd.left or nd.right:
             if not nd.left:
@@ -224,44 +148,15 @@ class KDTree(object):
         return nd
 
     def _get_eu_dist(self, Xi, nd):
-        """Calculate euclidean distance between Xi and node.
-
-        Arguments:
-            Xi {list} -- 1d list with int or float.
-            nd {node}
-
-        Returns:
-            float -- Euclidean distance.
-        """
-
         X0 = nd.split[0]
         return get_eu_dist(Xi, X0)
 
     def _get_hyper_plane_dist(self, Xi, nd):
-        """Calculate euclidean distance between Xi and hyper plane.
-
-        Arguments:
-            Xi {list} -- 1d list with int or float.
-            nd {node}
-
-        Returns:
-            float -- Euclidean distance.
-        """
-
         j = nd.feature
         X0 = nd.split[0]
         return abs(Xi[j] - X0[j])
 
     def nearest_neighbour_search(self, Xi):
-        """Nearest neighbour search and backtracking.
-
-        Arguments:
-            Xi {list} -- 1d list with int or float.
-
-        Returns:
-            node -- The nearest node to Xi.
-        """
-
         # The leaf node after searching Xi.
         dist_best = float("inf")
         nd_best = self._search(Xi, self.root)

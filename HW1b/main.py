@@ -29,6 +29,7 @@ from cryp.participant import OneParticipant
 from cryp.cryption import AES128
 
 ## 阶梯 1 & 2
+
 generator = PrimeGenerator(20)
 q, alpha = generator.generate_large_prime()
 Alice = OneParticipant(q, alpha)

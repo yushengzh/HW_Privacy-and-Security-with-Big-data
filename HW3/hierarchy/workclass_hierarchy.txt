@@ -1,0 +1,8 @@
+Private,self-support,*
+Local-gov,gov,*
+Federal-gov,gov,*
+Self-emp-not-inc,inc,*
+Self-emp-inc,inc,*
+State-gov,goc,*
+Without-pay,self-support,*
+

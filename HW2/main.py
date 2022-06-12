@@ -13,7 +13,7 @@ exp2: 数据安全检索
 
 阶梯三：空间数据安全（近似）近邻检索
     1.二维乱序数据(y)
-    2.采用任一种保序加密方法加密
+    2.采用任一种保序加密方法加密(easiest simOPE)
     3.构建恰当的索引结构，如KD树等(y)
     4.可在二维数据上进行安全（近似）近邻查询(y)
 
@@ -105,13 +105,9 @@ k = input("请输入近似查询k值:")
 
 model = KNeighborsBase()
 model.fit(txt, y1, int(k))
-
-# model1 = K_Nearest_Neighbor()
-# model1.fit(txt, z1, int(k))
-# heap1 = model1.knn(Xi)
 heap = model._knn_search(Xi)
-ret1 = [get_eu_dist(Xi, nd.split[0]) for nd in heap.items]
-print(heap)
+# ret1 = [get_eu_dist(Xi, nd.split[0]) for nd in heap.items]
+
 
 
 

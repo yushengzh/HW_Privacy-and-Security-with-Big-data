@@ -62,17 +62,11 @@ class simOPE():
 
 
     def __key_generator(self, block_size):
-
-        #random_seq = os.urandom(block_size)
-        #key = byte2float(bytes(random_seq))
-        #while key == 0.0 and key < 100000 and key > -100000:
-        #    random_seq = os.urandom(block_size)
-        #    key = byte2float(bytes(random_seq))
         return 1000000 * random.random()
         # return base64.b64encode(random_seq)
 
     def __noise_generator(self):
-        return random.randrange(-10,10,1)
+        return random.randrange(-10, 10, 1)
 
     def encryption(self, plain):
         temp = Decimal(str(plain)) * Decimal(self.key_a)
@@ -87,3 +81,8 @@ class simOPE():
         #return (cipher - self.n - self.key_b) / self.key_a
 
 
+        #random_seq = os.urandom(block_size)
+        #key = byte2float(bytes(random_seq))
+        #while key == 0.0 and key < 100000 and key > -100000:
+        #    random_seq = os.urandom(block_size)
+        #    key = byte2float(bytes(random_seq))

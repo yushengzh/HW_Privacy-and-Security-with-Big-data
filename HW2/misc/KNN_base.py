@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from misc.newKdTree import KDTree
-# from misc.maxheap import MaxHeap
 
 class MaxHeap(object):
     def __init__(self, max_size, fn):
@@ -34,23 +33,9 @@ class MaxHeap(object):
 
     @property
     def full(self):
-        """If the heap is full.
-
-        Returns:
-            bool
-        """
-
         return self.size == self.max_size
 
     def value(self, idx):
-        """Caculate the value of item.
-
-        Arguments:
-            idx {int} -- The index of item.
-
-        Returns:
-            float
-        """
         item = self._items[idx]
         if item is None:
             ret = -float('inf')
@@ -59,12 +44,6 @@ class MaxHeap(object):
         return ret
 
     def add(self, item):
-        """Add a new item to the MaxHeap.
-
-        Arguments:
-            item {object} -- The item to add.
-        """
-
         if self.full:
             if self.fn(item) < self.value(0):
                 self._items[0] = item
@@ -75,11 +54,6 @@ class MaxHeap(object):
             self._shift_up(self.size - 1)
 
     def pop(self):
-        """Pop the top item out of the heap.
-
-        Returns:
-            object -- The item popped.
-        """
 
         assert self.size > 0, "Cannot pop item! The MaxHeap is empty!"
         ret = self._items[0]
@@ -90,11 +64,6 @@ class MaxHeap(object):
         return ret
 
     def _shift_up(self, idx):
-        """Shift up item unitl its parent is greater than the item.
-
-        Arguments:
-            idx {int} -- Heap item's index.
-        """
 
         assert idx < self.size, \
             "The parameter idx must be less than heap's size!"
@@ -167,13 +136,9 @@ class KNeighborsBase(object):
             nd_root.dist = tree._get_eu_dist(Xi, nd_root)
             heap.add(nd_root)
             while nd_cur is not nd_root:
-                # Calculate distance between Xi and current node
                 nd_cur.dist = tree._get_eu_dist(Xi, nd_cur)
-                # Update best node and distance
                 heap.add(nd_cur)
-                # If it's necessary to visit brother node.
-                if nd_cur.brother and \
-                        (not heap or heap.items[0].dist >
+                if nd_cur.brother and (not heap or heap.items[0].dist >
                          tree._get_hyper_plane_dist(Xi, nd_cur.father)):
                     _nd = tree._search(Xi, nd_cur.brother)
                     que.append((nd_cur.brother, _nd))
@@ -184,8 +149,8 @@ class KNeighborsBase(object):
         for nd in heap.items:
             cnt += 1
             print("第" + str(cnt) + "项" +
+                  " 加密值为" + str(nd.split[0]) +" 解密后为" +
                   str([round(float(simope.decryption(float(nd.split[0][0]))), 6),
-                       round(float(simope.decryption(float(nd.split[0][1]))), 6)])
-                        +" 加密值为" + str(nd.split[0]))
+                       round(float(simope.decryption(float(nd.split[0][1]))), 6)]))
         return heap
 

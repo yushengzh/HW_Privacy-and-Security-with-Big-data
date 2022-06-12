@@ -1,7 +1,4 @@
 #-*- coding:utf-8 -*-
-"""
-__author__ = BlingBling
-"""
 #!/usr/bin/env python
 
 from socket import *
@@ -64,14 +61,14 @@ while True:
         file_total_size = int(data.decode())
         received_size = 0
         filepath = "new" + message
-        f = open("new" + message  ,"wb")
+        f = open("new" + message  , "wb")
         while received_size < file_total_size:
             data = tcpCliSock.recv(BUFSIZ)
             f.write(data)
             received_size += len(data)
-            print("已接收:",received_size)
+            print("已接收:", received_size)
         f.close()
         df = DecryptionFile("newmessage.txt", roundkeys)
         df.decrypt_file('txt')
-        print("receive done",file_total_size," ",received_size)
+        print("receive done", file_total_size, " ", received_size)
 tcpCliSock.close()
